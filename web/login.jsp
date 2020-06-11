@@ -51,7 +51,8 @@
 
     <div class="loginbox loginbox1">
 
-        <form action="" method="post">
+        <form action="user" method="post">
+            <input type="hidden" name="oper" value="login">
             <ul>
                 <li><input name="username" placeholder="用户名" type="text"  class="loginuser"/></li>
                 <li><input name="password" placeholder="密码" type="password" class="loginpwd"/></li>
