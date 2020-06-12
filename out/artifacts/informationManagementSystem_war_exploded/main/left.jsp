@@ -69,8 +69,8 @@
             <span><img src="images/leftico01.png" /></span>个人信息
         </div>
         <ul class="menuson">
-            <li><cite></cite><a href="tab.html" target="rightFrame">查看个人</a><i></i></li>
-            <li><cite></cite><a href="tab.html" target="rightFrame">修改密码</a><i></i></li>
+            <li><cite></cite><a href="user/userInfo.jsp" target="rightFrame">查看个人</a><i></i></li>
+            <li><cite></cite><a href="user/pwd.jsp" target="rightFrame">修改密码</a><i></i></li>
         </ul>
     </dd>
     <dd>

@@ -26,9 +26,20 @@ public class UserServlet extends HttpServlet {
         }else if(oper.equals("logout")){
             logger.info("用户准备退出");
             checkUserLogOut(req,resp);
-        }else{
+        }else if(oper.equals("changePwd")){
+            logger.info("用户准备修改密码");
+            changeUserPwd(req,resp);
+        }
+        else{
             logger.info("没有找到对应的操作符");
         }
+    }
+
+    private void changeUserPwd(HttpServletRequest req, HttpServletResponse resp) {
+        String newPassword = req.getParameter("newPassword");
+        String confirmPassword = req.getParameter("confirmPassword");
+        logger.debug("新密码："+newPassword);
+        logger.debug("确认密码："+confirmPassword);
     }
 
     private void checkUserLogOut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
