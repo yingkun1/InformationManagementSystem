@@ -1,8 +1,8 @@
 package online.luffyk.servlet;
 
 import online.luffyk.domain.User;
-import online.luffyk.service.UserLoginService;
-import online.luffyk.service.impl.UserLoginServiceImpl;
+import online.luffyk.service.UserService;
+import online.luffyk.service.impl.UserServiceImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class UserServlet extends HttpServlet {
-    private UserLoginService userLoginService = new UserLoginServiceImpl();
+    private UserService userService = new UserServiceImpl();
     private Logger logger = Logger.getLogger(UserServlet.class);
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -35,11 +35,19 @@ public class UserServlet extends HttpServlet {
         }
     }
 
-    private void changeUserPwd(HttpServletRequest req, HttpServletResponse resp) {
+    private void changeUserPwd(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String newPassword = req.getParameter("newPassword");
-        String confirmPassword = req.getParameter("confirmPassword");
-        logger.debug("新密码："+newPassword);
-        logger.debug("确认密码："+confirmPassword);
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute("user");
+        Integer uid = user.getUid();
+        Integer index = userService.changeUserPwdService(uid, newPassword);
+
+        if(index>0){
+            //密码修改成功，使session失效,暂时先不失效
+            session.setAttribute("changed",true);
+            //重定向到登陆页面
+            resp.sendRedirect("/manager/login.jsp");
+        }
     }
 
     private void checkUserLogOut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -55,7 +63,7 @@ public class UserServlet extends HttpServlet {
     private void checkUserLogin(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-        User user = userLoginService.checkUserLoginService(username, password);
+        User user = userService.checkUserLoginService(username, password);
         logger.debug(user);
         if(user!=null){
             HttpSession session = req.getSession();

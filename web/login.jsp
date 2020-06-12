@@ -49,8 +49,21 @@
 
     <span class="systemlogo"></span>
     <%
+        Boolean changed = (Boolean) session.getAttribute("changed");
+        if(changed!=null&&changed){
+    %>
+        <script type="text/javascript">
+            $(function(){
+                alert("修改密码成功")
+            })
+        </script>
+    <%
+        }
+        session.removeAttribute("changed");
+    %>
+    <%
     Boolean flag = (Boolean) request.getAttribute("flag");
-        System.out.println(flag);
+    System.out.println(flag);
     if(flag!=null&&!flag){
     %>
          <div style="text-align: center;color: white;">
