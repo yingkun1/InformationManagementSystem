@@ -48,12 +48,25 @@
 <div class="loginbody">
 
     <span class="systemlogo"></span>
+    <%
+    Boolean flag = (Boolean) request.getAttribute("flag");
+        System.out.println(flag);
+    if(flag!=null&&!flag){
+    %>
+         <div style="text-align: center;color: white;">
+            <span>用户名或密码错误</span>
+        </div>
+    <%
+        }
+    %>
 
+   
     <div class="loginbox loginbox1">
 
         <form action="user" method="post">
             <input type="hidden" name="oper" value="login">
             <ul>
+               
                 <li><input name="username" placeholder="用户名" type="text"  class="loginuser"/></li>
                 <li><input name="password" placeholder="密码" type="password" class="loginpwd"/></li>
                 <li class="yzm">

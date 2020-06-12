@@ -51,7 +51,8 @@ public class UserServlet extends HttpServlet {
             session.setAttribute("user",user);
             resp.sendRedirect("http://127.0.0.1:8080/manager/main/main.jsp");
         }else{
-            req.getRequestDispatcher("http://127.0.0.1:8080/manager/login.jsp").forward(req,resp);
+            req.setAttribute("flag",false);
+            req.getRequestDispatcher("/login.jsp").forward(req,resp);
         }
     }
 
