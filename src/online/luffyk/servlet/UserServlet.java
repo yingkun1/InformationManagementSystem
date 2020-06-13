@@ -3,6 +3,7 @@ package online.luffyk.servlet;
 import online.luffyk.domain.User;
 import online.luffyk.service.UserService;
 import online.luffyk.service.impl.UserServiceImpl;
+import online.luffyk.util.Utils;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -11,10 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 public class UserServlet extends HttpServlet {
     private UserService userService = new UserServiceImpl();
     private Logger logger = Logger.getLogger(UserServlet.class);
+    private Utils utils = new Utils();
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("utf-8");
@@ -29,9 +32,56 @@ public class UserServlet extends HttpServlet {
         }else if(oper.equals("changePwd")){
             logger.info("用户准备修改密码");
             changeUserPwd(req,resp);
+        }else if(oper.equals("show")){
+            logger.info("用户准备查询所有的用户信息");
+            showAllUser(req,resp);
+        }else if(oper.equals("register")){
+            logger.info("用户准备注册");
+            userRegister(req,resp);
         }
         else{
             logger.info("没有找到对应的操作符");
+        }
+    }
+
+    private void userRegister(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        String sex = req.getParameter("sex");
+        String age = req.getParameter("age");
+        String birthday = req.getParameter("birthday");
+        logger.debug("birthday="+birthday);
+        if(!birthday.equals("")){
+            birthday = utils.dateConversion(birthday);
+        }
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setSex(sex);
+        if(!age.equals("")){
+            user.setAge(Integer.parseInt(age));
+        }
+        if(!birthday.equals("")){
+            user.setBirthday(birthday);
+        }
+        logger.info("user="+user);
+        Integer index = userService.userInfoInsertService(user);
+        if(index>0){
+            HttpSession session = req.getSession();
+            session.setAttribute("register",true);
+            resp.sendRedirect("/manager/login.jsp");
+        }
+    }
+
+    private void showAllUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<User> users = userService.showAllUserService();
+        if(users!=null&&users.size()>0){
+//            HttpSession session = req.getSession();
+//            session.setAttribute("users",users);
+//            resp.sendRedirect("/manager/user/showUserInfo.jsp");
+            logger.debug("size=="+users.size());
+            req.setAttribute("users",users);
+            req.getRequestDispatcher("/user/showUserInfo.jsp").forward(req,resp);
         }
     }
 

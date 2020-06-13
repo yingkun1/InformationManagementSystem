@@ -6,6 +6,8 @@ import online.luffyk.domain.User;
 import online.luffyk.service.UserService;
 import org.apache.log4j.Logger;
 
+import java.util.List;
+
 public class UserServiceImpl implements UserService {
     private Logger logger = Logger.getLogger(UserServiceImpl.class);
     private UserDao userDao = new UserDaoImpl();
@@ -30,6 +32,29 @@ public class UserServiceImpl implements UserService {
             logger.debug("uid为"+uid+"的用户修改密码成功");
         }else{
             logger.debug("uid为"+uid+"的用户修改密码失败");
+        }
+        return index;
+    }
+
+    @Override
+    public List<User> showAllUserService() {
+        logger.debug("准备获取所有用户的数据");
+        List<User> users = userDao.showAllUserDao();
+        if(users!=null&&users.size()>0){
+            logger.debug("查询到了所有的数据");
+        }else{
+            logger.debug("查询数据失败");
+        }
+        return users;
+    }
+
+    @Override
+    public Integer userInfoInsertService(User user) {
+        Integer index = userDao.userInfoInsertDao(user);
+        if(index>0){
+            logger.debug("用户数据注册成功");
+        }else{
+            logger.debug("用户数据注册失败");
         }
         return index;
     }

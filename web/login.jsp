@@ -8,12 +8,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String path = request.getContextPath();
+    System.out.println("path===="+path);
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <base href="<%=basePath%>">
+    <base href="<%=basePath%>"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>欢迎登录后台管理系统</title>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
@@ -48,6 +49,19 @@
 <div class="loginbody">
 
     <span class="systemlogo"></span>
+    <%
+        Boolean register = (Boolean) session.getAttribute("register");
+        if(register!=null&&register){
+    %>
+        <script type="text/javascript">
+            $(function () {
+                alert("注册成功")
+            })
+        </script>
+    <%
+        }
+        session.removeAttribute("register");
+    %>
     <%
         Boolean changed = (Boolean) session.getAttribute("changed");
         if(changed!=null&&changed){
@@ -85,7 +99,11 @@
                 <li class="yzm">
                     <span><input name="" type="text" value="验证码" onclick="JavaScript:this.value=''"/></span><cite>X3D5S</cite>
                 </li>
-                <li><input name="" type="submit" class="loginbtn" value="登录" /><label><input name="" type="checkbox" value="" checked="checked" />记住密码</label><label><a href="#">忘记密码？</a></label></li>
+                <li>
+                    <input name="" type="submit" class="loginbtn" value="登录" />
+                    <label><a href="user/register.jsp">注册</a></label>
+                    <label><a href="#">忘记密码</a></label>
+                </li>
             </ul>
         </form>
 
