@@ -1,3 +1,7 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
+<%--<%@ taglib prefix="xml" uri="http://java.sun.com/jsp/jstl/xml" %>--%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="online.luffyk.domain.User" %>
 <%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
@@ -69,55 +73,50 @@
         </tr>
         </thead>
         <tbody>
-<%--        <tr>--%>
-<%--            <%--%>
-<%--                User user = (User) session.getAttribute("user");--%>
-<%--            %>--%>
-<%--            <td><%=user.getUid()%></td>--%>
-<%--            <td><%=user.getUsername()%></td>--%>
-<%--            <td><%=user.getPassword()%></td>--%>
-<%--            <%--%>
-<%--                System.out.println(user.getSex());--%>
-<%--                if(user.getSex().equals("1")){--%>
-
-<%--            %>--%>
-<%--            <td>男</td>--%>
-<%--            <%--%>
-<%--            }else{--%>
-
-<%--            %>--%>
-<%--            <td>女</td>--%>
-<%--            <%--%>
-<%--                }--%>
-<%--            %>--%>
-<%--            <td><%=user.getAge()%></td>--%>
-<%--            <td><%=user.getBirthday()%></td>--%>
-<%--        </tr>--%>
-        <%
-            ArrayList<User> users = (ArrayList<User>) request.getAttribute("users");
-            for(User user:users){
-        %>
+        <c:set var="string" value="今天是个好天气"/>
+        <c:out value="${fn:length(string)}"/>
+        <c:forEach items="${requestScope.users}" var="user">
             <tr>
-                <td><%=user.getUid()%></td>
-                <td><%=user.getUsername()%></td>
-                <td><%=user.getPassword()%></td>
-                <%
-                    if(user.getSex().equals("1")){
-                %>
-                    <td>男</td>
-                <%
-                    }else{
-                %>
-                    <td>女</td>
-                <%
-                    }
-                %>
-                <td><%=user.getAge()%></td>
-                <td><%=user.getBirthday()%></td>
+                <td>${user.uid}</td>
+                <td>${user.username}</td>
+                <td>${user.password}</td>
+                <c:choose>
+                    <c:when test="${user.sex eq '1'}">
+                        <td>男</td>
+                    </c:when>
+                    <c:otherwise>
+                        <td>女</td>
+                    </c:otherwise>
+                </c:choose>
+                <td>${user.age}</td>
+                <td>${user.birthday}</td>
             </tr>
-        <%
-            }
-        %>
+        </c:forEach>
+<%--        <%--%>
+<%--            ArrayList<User> users = (ArrayList<User>) request.getAttribute("users");--%>
+<%--            for(User user:users){--%>
+<%--        %>--%>
+<%--            <tr>--%>
+<%--                <td><%=user.getUid()%></td>--%>
+<%--                <td><%=user.getUsername()%></td>--%>
+<%--                <td><%=user.getPassword()%></td>--%>
+<%--                <%--%>
+<%--                    if(user.getSex().equals("1")){--%>
+<%--                %>--%>
+<%--                    <td>男</td>--%>
+<%--                <%--%>
+<%--                    }else{--%>
+<%--                %>--%>
+<%--                    <td>女</td>--%>
+<%--                <%--%>
+<%--                    }--%>
+<%--                %>--%>
+<%--                <td><%=user.getAge()%></td>--%>
+<%--                <td><%=user.getBirthday()%></td>--%>
+<%--            </tr>--%>
+<%--        <%--%>
+<%--            }--%>
+<%--        %>--%>
 
 
 

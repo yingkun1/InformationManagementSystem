@@ -3,8 +3,8 @@ package online.luffyk.util;
 public class Utils {
     public String dateConversion(String date){
         String[] split = date.split("/");
-        String day = split[0];
-        String month = split[1];
+        String month = split[0];
+        String day = split[1];
         String year = split[2];
         StringBuilder stringBuilder = new StringBuilder(year);
         stringBuilder.append("-");

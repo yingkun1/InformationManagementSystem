@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
     String path = request.getContextPath();
     System.out.println("path===="+path);
@@ -49,45 +50,34 @@
 <div class="loginbody">
 
     <span class="systemlogo"></span>
-    <%
-        Boolean register = (Boolean) session.getAttribute("register");
-        if(register!=null&&register){
-    %>
-        <script type="text/javascript">
-            $(function () {
-                alert("注册成功")
-            })
-        </script>
-    <%
-        }
-        session.removeAttribute("register");
-    %>
-    <%
-        Boolean changed = (Boolean) session.getAttribute("changed");
-        if(changed!=null&&changed){
-    %>
-        <script type="text/javascript">
-            $(function(){
-                alert("修改密码成功")
-            })
-        </script>
-    <%
-        }
-        session.removeAttribute("changed");
-    %>
-    <%
-    Boolean flag = (Boolean) request.getAttribute("flag");
-    System.out.println(flag);
-    if(flag!=null&&!flag){
-    %>
-         <div style="text-align: center;color: white;">
-            <span>用户名或密码错误</span>
-        </div>
-    <%
-        }
-    %>
+    <c:choose>
+        <c:when test="${not empty sessionScope.register}">
+            <script type="text/javascript">
+                $(function () {
+                    alert("注册成功")
+                })
+            </script>
+            <c:remove var="register" scope="session"/>
+        </c:when>
+        <c:when test="${not empty sessionScope.changed}">
+            <script type="text/javascript">
+                $(function(){
+                    alert("修改密码成功")
+                })
+            </script>
+            <c:remove var="changed" scope="session" />
+        </c:when>
+        <c:when test="${not empty requestScope.flag}">
+            <div style="text-align: center;color: white;">
+                <span>用户名或密码错误</span>
+            </div>
+        </c:when>
+    </c:choose>
 
-   
+
+
+
+
     <div class="loginbox loginbox1">
 
         <form action="user" method="post">

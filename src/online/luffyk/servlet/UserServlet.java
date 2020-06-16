@@ -53,6 +53,7 @@ public class UserServlet extends HttpServlet {
         logger.debug("birthday="+birthday);
         if(!birthday.equals("")){
             birthday = utils.dateConversion(birthday);
+            logger.debug("birthday2="+birthday);
         }
         User user = new User();
         user.setUsername(username);
