@@ -14,8 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-public class UserServlet extends HttpServlet {
-    private UserService userService = new UserServiceImpl();
+public class UserServlet extends HttpServlet {private UserService userService = new UserServiceImpl();
     private Logger logger = Logger.getLogger(UserServlet.class);
     private Utils utils = new Utils();
     @Override
@@ -115,7 +114,7 @@ public class UserServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         User user = userService.checkUserLoginService(username, password);
-        logger.debug(user);
+        logger.debug("user对象的地址"+user.hashCode());
         if(user!=null){
             HttpSession session = req.getSession();
             session.setAttribute("user",user);

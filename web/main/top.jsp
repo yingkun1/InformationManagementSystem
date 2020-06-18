@@ -59,11 +59,12 @@
 <%--        <li><a href="#">关于</a></li>--%>
         <li><a id="out">退出</a></li>
     </ul>
-    <%
-        User user = (User) session.getAttribute("user");
-    %>
+    <div>
+        当前在线人数${applicationScope.current_users}
+        访问该页面的次数${applicationScope.visits_count}
+    </div>
     <div class="user">
-        <span><%=user.getUsername()%></span>
+        <span>${sessionScope.user.username}</span>
     </div>
 
 

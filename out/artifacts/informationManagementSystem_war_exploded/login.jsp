@@ -29,6 +29,7 @@
                 $('.loginbox').css({'position':'absolute','left':($(window).width()-692)/2});
             })
         });
+
     </script>
 
 </head>
